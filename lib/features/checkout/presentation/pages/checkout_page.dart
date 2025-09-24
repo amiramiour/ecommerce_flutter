@@ -72,7 +72,7 @@ class CheckoutPage extends ConsumerWidget {
                     }
                   }
                 },
-                child: const Text('Payer (mock Stripe)'),
+                child: const Text('Payer'),
               ),
             ),
           ],
@@ -154,7 +154,7 @@ class _MockStripeSheetState extends State<_MockStripeSheet> {
                   decoration: BoxDecoration(color: scheme.primary.withOpacity(.2), borderRadius: BorderRadius.circular(4)),
                 ),
                 const SizedBox(height: 16),
-                Text('Paiement sécurisé (mock)', style: Theme.of(context).textTheme.titleMedium),
+                Text('Paiement sécurisé', style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _card,

@@ -12,6 +12,7 @@ import 'package:ecommerce_flutter/features/cart/presentation/pages/cart_page.dar
 import 'package:ecommerce_flutter/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:ecommerce_flutter/features/checkout/presentation/pages/orders_page.dart';
 import 'package:ecommerce_flutter/features/checkout/presentation/pages/order_detail_page.dart';
+import 'package:ecommerce_flutter/features/profile/presentation/pages/profile_page.dart';
 
 /// Permet de rafraîchir GoRouter quand l'état d'auth change
 class GoRouterRefreshStream extends ChangeNotifier {
@@ -67,6 +68,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/orders/:id',
         builder: (context, state) => OrderDetailPage(orderId: state.pathParameters['id']!),
       ),
+      GoRoute(
+        path: '/profile',
+        builder: (_, __) => const ProfilePage(),
+      ),
+
 
     ],
   );
