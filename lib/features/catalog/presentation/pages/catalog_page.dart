@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../auth/presentation/viewmodels/auth_controller.dart';
 import '../viewmodels/catalog_viewmodel.dart';
 import '../../domain/entities/product.dart';
 import '../../../cart/presentation/viewmodels/cart_viewmodel.dart';
@@ -41,8 +40,8 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
     super.dispose();
   }
 
-  Future<void> _refresh() async {
-    await ref.refresh(catalogViewModelProvider.future);
+  Future<void> _refresh() {
+    return ref.refresh(catalogViewModelProvider.future);
   }
 
   @override
@@ -57,7 +56,6 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Catalogue'),
-        // Boutons actions en haut à droite
         actions: [
           // Grille / Liste
           IconButton(
@@ -71,7 +69,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
             tooltip: 'Trier',
             initialValue: sort,
             onSelected: (value) =>
-                ref.read(sortOrderProvider.notifier).state = value,
+            ref.read(sortOrderProvider.notifier).state = value,
             itemBuilder: (context) => const [
               PopupMenuItem(
                   value: SortOrder.relevance, child: Text('Pertinence')),
@@ -127,7 +125,6 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
             },
           ),
         ],
-        // Champ de recherche
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(64),
           child: Padding(
@@ -140,14 +137,14 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                 isDense: true,
                 filled: true,
                 border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
           ),
         ),
       ),
 
-      drawer: const AppDrawer(), // ✅ Menu latéral
+      drawer: const AppDrawer(),
 
       body: productsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -162,7 +159,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                   height: 48,
                   child: ListView.separated(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     scrollDirection: Axis.horizontal,
                     itemCount: categories.length + 1,
                     separatorBuilder: (_, __) => const SizedBox(width: 8),
@@ -197,14 +194,14 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                   padding: const EdgeInsets.all(16),
                   sliver: SliverGrid(
                     gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                    const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.7,
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
                     ),
                     delegate: SliverChildBuilderDelegate(
-                      (context, index) {
+                          (context, index) {
                         final product = filtered[index];
                         return ProductCard(product: product);
                       },
@@ -245,7 +242,7 @@ class ProductCard extends StatelessWidget {
             Expanded(
               child: ClipRRect(
                 borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(16)),
+                const BorderRadius.vertical(top: Radius.circular(16)),
                 child: Image.network(product.thumbnail, fit: BoxFit.cover),
               ),
             ),

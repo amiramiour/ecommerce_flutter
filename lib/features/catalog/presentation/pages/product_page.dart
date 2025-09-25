@@ -67,11 +67,13 @@ class _ProductPageState extends ConsumerState<ProductPage> {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Erreur : $e')),
         data: (_) {
-          if (id == null)
+          if (id == null) {
             return const Center(child: Text('ID produit invalide'));
+          }
           final product = ref.watch(productByIdProvider(id));
-          if (product == null)
+          if (product == null) {
             return const Center(child: Text('Produit introuvable'));
+          }
 
           return _ProductContent(
             product: product,
@@ -83,7 +85,7 @@ class _ProductPageState extends ConsumerState<ProductPage> {
             onAdd: () {
               ref.read(cartProvider.notifier).add(product, qty: quantity);
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Ajouté au panier ✅')),
+                const SnackBar(content: Text('Ajouté au panier ')),
               );
             },
           );
@@ -142,10 +144,12 @@ class _ProductContent extends StatelessWidget {
           if (product.category.isNotEmpty)
             Chip(
               label: Text(product.category),
-              backgroundColor:
-                  Theme.of(context).colorScheme.primary.withOpacity(.08),
+              backgroundColor: Theme.of(context)
+                  .colorScheme
+                  .primary
+                  .withValues(alpha: .08),
               labelStyle:
-                  TextStyle(color: Theme.of(context).colorScheme.primary),
+              TextStyle(color: Theme.of(context).colorScheme.primary),
             ),
           const SizedBox(height: 12),
 

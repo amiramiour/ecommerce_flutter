@@ -31,19 +31,9 @@ void main() {
     );
 
     await tester.pumpWidget(
-      const MaterialApp(
+      MaterialApp(
         home: Scaffold(
-          body: TestProductListTile(
-            product: Product(
-              id: 2,
-              title: 'List Product',
-              price: 79.99,
-              thumbnail: '',
-              description: '',
-              category: '',
-              images: [],
-            ),
-          ),
+          body: TestProductListTile(product: product),
         ),
       ),
     );

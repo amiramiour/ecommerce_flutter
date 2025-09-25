@@ -40,9 +40,9 @@ class _LoginPageState extends ConsumerState<LoginPage>
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     await ref.read(authControllerProvider.notifier).signIn(
-          _email.text.trim(),
-          _password.text,
-        );
+      _email.text.trim(),
+      _password.text,
+    );
     final state = ref.read(authControllerProvider);
     if (state.hasError) {
       final msg = mapFirebaseAuthError(state.error!);
@@ -75,7 +75,8 @@ class _LoginPageState extends ConsumerState<LoginPage>
               constraints: const BoxConstraints(maxWidth: 420),
               child: Card(
                 elevation: 12,
-                color: theme.colorScheme.surface.withOpacity(0.9),
+                // utilisation de withValues
+                color: theme.colorScheme.surface.withValues(alpha: 0.9),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24)),
                 child: Padding(
@@ -140,10 +141,10 @@ class _LoginPageState extends ConsumerState<LoginPage>
                                       borderRadius: BorderRadius.circular(14))),
                               child: auth.isLoading
                                   ? const SizedBox(
-                                      width: 22,
-                                      height: 22,
-                                      child: CircularProgressIndicator(
-                                          strokeWidth: 2))
+                                  width: 22,
+                                  height: 22,
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 2))
                                   : const Text("Se connecter"),
                             ),
                           ),

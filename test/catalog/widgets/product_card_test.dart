@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_flutter/features/catalog/domain/entities/product.dart';
-import 'package:ecommerce_flutter/features/catalog/presentation/pages/catalog_page.dart';
 
 class FakeProductCard extends StatelessWidget {
   final Product product;
@@ -12,7 +11,6 @@ class FakeProductCard extends StatelessWidget {
     return Card(
       child: Column(
         children: [
-          // Remplace l'image réseau ici :
           const Placeholder(fallbackHeight: 100),
           Text(product.title),
           Text('\$${product.price.toStringAsFixed(2)}'),

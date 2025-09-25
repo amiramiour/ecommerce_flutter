@@ -21,38 +21,49 @@ class CheckoutPage extends ConsumerWidget {
               child: items.isEmpty
                   ? const Center(child: Text('Panier vide'))
                   : ListView.separated(
-                      itemCount: items.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 8),
-                      itemBuilder: (_, i) {
-                        final it = items[i];
-                        return ListTile(
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(it.thumbnail,
-                                width: 48, height: 48, fit: BoxFit.cover),
-                          ),
-                          title: Text(it.title,
-                              maxLines: 2, overflow: TextOverflow.ellipsis),
-                          subtitle: Text(
-                              '${it.quantity} × \$${it.price.toStringAsFixed(2)}'),
-                          trailing: Text(
-                              '\$${(it.price * it.quantity).toStringAsFixed(2)}',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold)),
-                        );
-                      },
+                itemCount: items.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 8),
+                itemBuilder: (_, i) {
+                  final it = items[i];
+                  return ListTile(
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        it.thumbnail,
+                        width: 48,
+                        height: 48,
+                        fit: BoxFit.cover,
+                      ),
                     ),
+                    title: Text(
+                      it.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    subtitle: Text(
+                        '${it.quantity} × \$${it.price.toStringAsFixed(2)}'),
+                    trailing: Text(
+                      '\$${(it.price * it.quantity).toStringAsFixed(2)}',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  );
+                },
+              ),
             ),
             const SizedBox(height: 8),
             Row(
               children: [
                 const Expanded(
-                    child: Text('Total',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600))),
-                Text('\$${total.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
+                  child: Text(
+                    'Total',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Text(
+                  '\$${total.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -63,28 +74,29 @@ class CheckoutPage extends ConsumerWidget {
                 onPressed: items.isEmpty
                     ? null
                     : () async {
-                        final success = await showModalBottomSheet<bool>(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          builder: (_) => _MockStripeSheet(amount: total),
-                        );
-                        if (success == true) {
-                          // créer commande + vider panier
-                          ref
-                              .read(ordersProvider.notifier)
-                              .addOrder(items, total);
-                          ref.read(cartProvider.notifier).clear();
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                      'Paiement confirmé — commande créée ✅')),
-                            );
-                            Navigator.of(context).pop(); // retour au panier
-                          }
-                        }
-                      },
+                  final success = await showModalBottomSheet<bool>(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (_) => _MockStripeSheet(amount: total),
+                  );
+                  if (success == true) {
+                    // créer commande + vider panier
+                    ref
+                        .read(ordersProvider.notifier)
+                        .addOrder(items, total);
+                    ref.read(cartProvider.notifier).clear();
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'Paiement confirmé — commande créée ✅'),
+                        ),
+                      );
+                      Navigator.of(context).pop(); // retour au panier
+                    }
+                  }
+                },
                 child: const Text('Payer'),
               ),
             ),
@@ -119,24 +131,36 @@ class _MockStripeSheetState extends State<_MockStripeSheet> {
   }
 
   String? _validateCard(String? v) {
-    if (v == null || v.trim().isEmpty) return 'Numéro requis';
+    if (v == null || v.trim().isEmpty) {
+      return 'Numéro requis';
+    }
     final digits = v.replaceAll(RegExp(r'\s+|-'), '');
-    if (digits.length < 16) return 'Numéro invalide';
+    if (digits.length < 16) {
+      return 'Numéro invalide';
+    }
     return null;
   }
 
   String? _validateExp(String? v) {
-    if (v == null || v.trim().isEmpty) return 'MM/YY requis';
+    if (v == null || v.trim().isEmpty) {
+      return 'MM/YY requis';
+    }
     final parts = v.split('/');
-    if (parts.length != 2) return 'Format MM/YY';
+    if (parts.length != 2) {
+      return 'Format MM/YY';
+    }
     final mm = int.tryParse(parts[0]);
     final yy = int.tryParse(parts[1]);
-    if (mm == null || yy == null || mm < 1 || mm > 12) return 'Mois invalide';
+    if (mm == null || yy == null || mm < 1 || mm > 12) {
+      return 'Mois invalide';
+    }
     return null;
   }
 
   String? _validateCvc(String? v) {
-    if (v == null || v.trim().length < 3) return 'CVC invalide';
+    if (v == null || v.trim().length < 3) {
+      return 'CVC invalide';
+    }
     return null;
   }
 
@@ -165,12 +189,15 @@ class _MockStripeSheetState extends State<_MockStripeSheet> {
                   height: 4,
                   width: 44,
                   decoration: BoxDecoration(
-                      color: scheme.primary.withOpacity(.2),
-                      borderRadius: BorderRadius.circular(4)),
+                    color: scheme.primary.withValues(alpha: .2),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                 ),
                 const SizedBox(height: 16),
-                Text('Paiement sécurisé',
-                    style: Theme.of(context).textTheme.titleMedium),
+                Text(
+                  'Paiement sécurisé',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: _card,
@@ -213,26 +240,40 @@ class _MockStripeSheetState extends State<_MockStripeSheet> {
                     onPressed: _processing
                         ? null
                         : () async {
-                            if (!_formKey.currentState!.validate()) return;
-                            setState(() => _processing = true);
-                            await Future.delayed(const Duration(
-                                seconds: 1)); // simulate processing
-                            if (mounted)
-                              Navigator.of(context).pop(true); // succès
-                          },
+                      if (!_formKey.currentState!.validate()) {
+                        return;
+                      }
+                      setState(() => _processing = true);
+
+                      // ✅ capture du navigator AVANT l’await
+                      final navigator = Navigator.of(context);
+
+                      await Future.delayed(
+                        const Duration(seconds: 1),
+                      ); // simulate processing
+                      if (!mounted) return;
+                      navigator.pop(true);
+                    },
                     child: _processing
                         ? const SizedBox(
-                            width: 22,
-                            height: 22,
-                            child: CircularProgressIndicator(strokeWidth: 2))
-                        : Text('Payer \$${widget.amount.toStringAsFixed(2)}'),
+                      width: 22,
+                      height: 22,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                        : Text(
+                      'Payer \$${widget.amount.toStringAsFixed(2)}',
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),
                 TextButton(
                   onPressed: _processing
                       ? null
-                      : () => Navigator.of(context).pop(false),
+                      : () {
+                    if (mounted) {
+                      Navigator.maybePop(context, false);
+                    }
+                  },
                   child: const Text('Annuler'),
                 ),
               ],

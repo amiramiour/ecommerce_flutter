@@ -44,9 +44,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     await ref.read(authControllerProvider.notifier).register(
-          _email.text.trim(),
-          _password.text,
-        );
+      _email.text.trim(),
+      _password.text,
+    );
     final state = ref.read(authControllerProvider);
     if (state.hasError) {
       final msg = mapFirebaseAuthError(state.error!);
@@ -79,7 +79,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
               constraints: const BoxConstraints(maxWidth: 460),
               child: Card(
                 elevation: 12,
-                color: theme.colorScheme.surface.withOpacity(0.95),
+                // corrigé : withValues
+                color: theme.colorScheme.surface.withValues(alpha: 0.95),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24)),
                 child: Padding(
@@ -140,10 +141,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                               border: OutlineInputBorder(),
                             ),
                             validator: (v) {
-                              if (v == null || v.isEmpty)
+                              if (v == null || v.isEmpty) {
                                 return "Confirme ton mot de passe";
-                              if (v != _password.text)
+                              }
+                              if (v != _password.text) {
                                 return "Les mots de passe ne correspondent pas";
+                              }
                               return null;
                             },
                           ),
@@ -158,10 +161,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                                       borderRadius: BorderRadius.circular(14))),
                               child: auth.isLoading
                                   ? const SizedBox(
-                                      width: 22,
-                                      height: 22,
-                                      child: CircularProgressIndicator(
-                                          strokeWidth: 2))
+                                  width: 22,
+                                  height: 22,
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 2))
                                   : const Text("Créer le compte"),
                             ),
                           ),

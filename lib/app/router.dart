@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -14,33 +13,25 @@ import 'package:ecommerce_flutter/features/checkout/presentation/pages/orders_pa
 import 'package:ecommerce_flutter/features/checkout/presentation/pages/order_detail_page.dart';
 import 'package:ecommerce_flutter/features/profile/presentation/pages/profile_page.dart';
 
-/// Permet de rafraîchir GoRouter quand l'état d'auth change
-class GoRouterRefreshStream extends ChangeNotifier {
-  late final StreamSubscription<dynamic> _sub;
-
-  GoRouterRefreshStream(Stream<dynamic> stream) {
-    _sub = stream.listen((_) => notifyListeners());
-  }
-
-  @override
-  void dispose() {
-    _sub.cancel();
-    super.dispose();
-  }
-}
-
 /// Router principal exposé via Riverpod
 final routerProvider = Provider<GoRouter>((ref) {
   final authAsync = ref.watch(authStateProvider);
 
+  //  Notifier qui force GoRouter à se rafraîchir quand l'état change
+  final notifier = ValueNotifier(0);
+
+  //  On écoute les changements d'état d'auth
+  ref.listen(authStateProvider, (_, __) {
+    notifier.value++;
+  });
+
   return GoRouter(
     initialLocation: '/catalog',
-    refreshListenable:
-        GoRouterRefreshStream(ref.read(authStateProvider.stream)),
+    refreshListenable: notifier,
     redirect: (context, state) {
       final isLoggedIn = authAsync.value != null;
-      final loggingIn = state.matchedLocation == '/login' ||
-          state.matchedLocation == '/register';
+      final loggingIn =
+          state.matchedLocation == '/login' || state.matchedLocation == '/register';
 
       if (!isLoggedIn && !loggingIn) return '/login';
       if (isLoggedIn && loggingIn) return '/catalog';
@@ -48,35 +39,30 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: [
-      // Auth routes
+      // Auth
       GoRoute(path: '/login', builder: (_, __) => const LoginPage()),
       GoRoute(path: '/register', builder: (_, __) => const RegisterPage()),
 
-      // Application routes (placeholder pour test)
-      GoRoute(
-        path: '/catalog',
-        builder: (_, __) =>
-            const CatalogPage(), // ⬅️ au lieu de CatalogPlaceholder
-      ),
-
+      // Catalogue
+      GoRoute(path: '/catalog', builder: (_, __) => const CatalogPage()),
       GoRoute(
         path: '/product/:id',
         builder: (context, state) =>
             ProductPage(productId: state.pathParameters['id']!),
       ),
 
-      GoRoute(path: '/cart', builder: (_, __) => const CartPage()), //
-      GoRoute(path: '/checkout', builder: (_, __) => const CheckoutPage()), //
-      GoRoute(path: '/orders', builder: (_, __) => const OrdersPage()), //
+      // Panier & Commandes
+      GoRoute(path: '/cart', builder: (_, __) => const CartPage()),
+      GoRoute(path: '/checkout', builder: (_, __) => const CheckoutPage()),
+      GoRoute(path: '/orders', builder: (_, __) => const OrdersPage()),
       GoRoute(
         path: '/orders/:id',
         builder: (context, state) =>
             OrderDetailPage(orderId: state.pathParameters['id']!),
       ),
-      GoRoute(
-        path: '/profile',
-        builder: (_, __) => const ProfilePage(),
-      ),
+
+      // Profil
+      GoRoute(path: '/profile', builder: (_, __) => const ProfilePage()),
     ],
   );
 });
@@ -102,7 +88,7 @@ class CatalogPlaceholder extends ConsumerWidget {
       ),
       body: const Center(
         child: Text(
-          '✅ Connecté — Page Catalog temporaire',
+          'Connecté — Page Catalog temporaire',
           style: TextStyle(fontSize: 18),
         ),
       ),
