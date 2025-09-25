@@ -1,0 +1,49 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name:  Checkout repo
+        uses: actions/checkout@v3
+
+      - name:  Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.x'
+          channel: stable
+
+      - name:  Install dependencies
+        run: flutter pub get
+
+      - name:  Format check
+        run: flutter format --set-exit-if-changed .
+
+      - name:  Analyze code
+        run: flutter analyze
+
+      - name:  Run tests + coverage
+        run: flutter test --coverage
+
+      - name:  Build Web
+        run: flutter build web
+
+      - name:  Upload build/web as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-build
+          path: build/web
+
+      - name:  Upload coverage as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage/
