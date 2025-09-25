@@ -163,14 +163,11 @@ class _LoginPageState extends ConsumerState<LoginPage>
                             ],
                           ),
                           const SizedBox(height: 8),
-
-                          // --- bouton Google ---
                           SizedBox(
                             width: double.infinity,
                             height: 48,
                             child: OutlinedButton.icon(
-                              icon: const Icon(Icons
-                                  .login), // (tu peux mettre un asset logo Google)
+                              icon: const Icon(Icons.login),
                               label: const Text("Continuer avec Google"),
                               onPressed: auth.isLoading
                                   ? null
@@ -178,6 +175,7 @@ class _LoginPageState extends ConsumerState<LoginPage>
                                       await ref
                                           .read(authControllerProvider.notifier)
                                           .signInWithGoogle();
+                                      if (!context.mounted) return;
                                       final state =
                                           ref.read(authControllerProvider);
                                       if (state.hasError) {
