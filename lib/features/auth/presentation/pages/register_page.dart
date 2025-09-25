@@ -11,7 +11,8 @@ class RegisterPage extends ConsumerStatefulWidget {
   ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerProviderStateMixin {
+class _RegisterPageState extends ConsumerState<RegisterPage>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _email = TextEditingController();
   final _password = TextEditingController();
@@ -23,7 +24,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    _anim = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+    _anim = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 600));
     _slide = Tween(begin: const Offset(0, .1), end: Offset.zero).animate(
       CurvedAnimation(parent: _anim, curve: Curves.easeOutCubic),
     );
@@ -42,9 +44,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     await ref.read(authControllerProvider.notifier).register(
-      _email.text.trim(),
-      _password.text,
-    );
+          _email.text.trim(),
+          _password.text,
+        );
     final state = ref.read(authControllerProvider);
     if (state.hasError) {
       final msg = mapFirebaseAuthError(state.error!);
@@ -65,7 +67,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.bottomLeft, end: Alignment.topRight,
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
             colors: [Color(0xFF141E30), Color(0xFF243B55)],
           ),
         ),
@@ -77,7 +80,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
               child: Card(
                 elevation: 12,
                 color: theme.colorScheme.surface.withOpacity(0.95),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24)),
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Form(
@@ -87,9 +91,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const SizedBox(height: 8),
-                          Icon(Icons.person_add_alt_1, size: 48, color: theme.colorScheme.primary),
+                          Icon(Icons.person_add_alt_1,
+                              size: 48, color: theme.colorScheme.primary),
                           const SizedBox(height: 12),
-                          Text("Créer un compte", style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700)),
+                          Text("Créer un compte",
+                              style: theme.textTheme.headlineSmall
+                                  ?.copyWith(fontWeight: FontWeight.w700)),
                           const SizedBox(height: 20),
                           TextFormField(
                             controller: _email,
@@ -112,11 +119,16 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
                               prefixIcon: const Icon(Icons.lock_outline),
                               border: const OutlineInputBorder(),
                               suffixIcon: IconButton(
-                                onPressed: () => setState(() => _obscure = !_obscure),
-                                icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off),
+                                onPressed: () =>
+                                    setState(() => _obscure = !_obscure),
+                                icon: Icon(_obscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
                               ),
                             ),
-                            validator: ValidationBuilder().minLength(6, "Au moins 6 caractères").build(),
+                            validator: ValidationBuilder()
+                                .minLength(6, "Au moins 6 caractères")
+                                .build(),
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
@@ -128,8 +140,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
                               border: OutlineInputBorder(),
                             ),
                             validator: (v) {
-                              if (v == null || v.isEmpty) return "Confirme ton mot de passe";
-                              if (v != _password.text) return "Les mots de passe ne correspondent pas";
+                              if (v == null || v.isEmpty)
+                                return "Confirme ton mot de passe";
+                              if (v != _password.text)
+                                return "Les mots de passe ne correspondent pas";
                               return null;
                             },
                           ),
@@ -139,9 +153,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> with SingleTickerPr
                             height: 48,
                             child: FilledButton(
                               onPressed: auth.isLoading ? null : _submit,
-                              style: FilledButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
+                              style: FilledButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14))),
                               child: auth.isLoading
-                                  ? const SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2))
+                                  ? const SizedBox(
+                                      width: 22,
+                                      height: 22,
+                                      child: CircularProgressIndicator(
+                                          strokeWidth: 2))
                                   : const Text("Créer le compte"),
                             ),
                           ),

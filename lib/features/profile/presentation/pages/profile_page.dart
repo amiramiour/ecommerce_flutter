@@ -28,12 +28,11 @@ class ProfilePage extends ConsumerWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 12),
             Text('Email : ${user.email}'),
-            Text('UID : ${user.uid}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
-
+            Text('UID : ${user.uid}',
+                style: const TextStyle(fontSize: 12, color: Colors.grey)),
             const SizedBox(height: 24),
             const Divider(),
             const SizedBox(height: 12),
-
             const Text('Navigation rapide',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 12),
@@ -47,9 +46,7 @@ class ProfilePage extends ConsumerWidget {
               title: const Text('Mes commandes'),
               onTap: () => context.push('/orders'),
             ),
-
             const Spacer(),
-
             Center(
               child: FilledButton.icon(
                 onPressed: () async {

@@ -7,7 +7,8 @@ class AuthRepositoryImpl implements AuthRepository {
   final FirebaseAuthDataSource _ds;
   AuthRepositoryImpl(this._ds);
 
-  AppUser? _map(fb.User? u) => u == null ? null : AppUser(uid: u.uid, email: u.email);
+  AppUser? _map(fb.User? u) =>
+      u == null ? null : AppUser(uid: u.uid, email: u.email);
 
   @override
   Stream<AppUser?> authStateChanges() => _ds.authState().map(_map);

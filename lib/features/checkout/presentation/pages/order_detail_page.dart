@@ -30,8 +30,10 @@ class OrderDetailPage extends ConsumerWidget {
                   final it = order.items[i];
                   return ListTile(
                     leading: Image.network(it.thumbnail, width: 50, height: 50),
-                    title: Text(it.title, maxLines: 2, overflow: TextOverflow.ellipsis),
-                    subtitle: Text('${it.quantity} × \$${it.price.toStringAsFixed(2)}'),
+                    title: Text(it.title,
+                        maxLines: 2, overflow: TextOverflow.ellipsis),
+                    subtitle: Text(
+                        '${it.quantity} × \$${it.price.toStringAsFixed(2)}'),
                     trailing: Text(
                       '\$${(it.price * it.quantity).toStringAsFixed(2)}',
                       style: const TextStyle(fontWeight: FontWeight.bold),

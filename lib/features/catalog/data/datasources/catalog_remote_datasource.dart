@@ -4,7 +4,8 @@ import '../../domain/entities/product.dart';
 
 class CatalogRemoteDataSource {
   Future<List<Product>> fetchProducts() async {
-    final response = await http.get(Uri.parse('https://fakestoreapi.com/products'));
+    final response =
+        await http.get(Uri.parse('https://fakestoreapi.com/products'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);

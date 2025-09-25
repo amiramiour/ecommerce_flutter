@@ -70,13 +70,17 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
           PopupMenuButton<SortOrder>(
             tooltip: 'Trier',
             initialValue: sort,
-            onSelected: (value) => ref.read(sortOrderProvider.notifier).state = value,
+            onSelected: (value) =>
+                ref.read(sortOrderProvider.notifier).state = value,
             itemBuilder: (context) => const [
-              PopupMenuItem(value: SortOrder.relevance, child: Text('Pertinence')),
+              PopupMenuItem(
+                  value: SortOrder.relevance, child: Text('Pertinence')),
               PopupMenuItem(value: SortOrder.priceAsc, child: Text('Prix ↑')),
               PopupMenuItem(value: SortOrder.priceDesc, child: Text('Prix ↓')),
-              PopupMenuItem(value: SortOrder.titleAsc, child: Text('Titre A→Z')),
-              PopupMenuItem(value: SortOrder.titleDesc, child: Text('Titre Z→A')),
+              PopupMenuItem(
+                  value: SortOrder.titleAsc, child: Text('Titre A→Z')),
+              PopupMenuItem(
+                  value: SortOrder.titleDesc, child: Text('Titre Z→A')),
             ],
             icon: const Icon(Icons.sort),
           ),
@@ -105,14 +109,16 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                       right: 6,
                       top: 6,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
                           '$count',
-                          style: const TextStyle(fontSize: 11, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 11, color: Colors.white),
                         ),
                       ),
                     ),
@@ -133,7 +139,8 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                 prefixIcon: const Icon(Icons.search),
                 isDense: true,
                 filled: true,
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
           ),
@@ -154,7 +161,8 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                 child: SizedBox(
                   height: 48,
                   child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     scrollDirection: Axis.horizontal,
                     itemCount: categories.length + 1,
                     separatorBuilder: (_, __) => const SizedBox(width: 8),
@@ -164,7 +172,9 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                         return FilterChip(
                           label: const Text('Tous'),
                           selected: isSelected,
-                          onSelected: (_) => ref.read(selectedCategoryProvider.notifier).state = null,
+                          onSelected: (_) => ref
+                              .read(selectedCategoryProvider.notifier)
+                              .state = null,
                         );
                       }
                       final cat = categories[index - 1];
@@ -172,7 +182,9 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                       return FilterChip(
                         label: Text(cat),
                         selected: isSelected,
-                        onSelected: (_) => ref.read(selectedCategoryProvider.notifier).state = cat,
+                        onSelected: (_) => ref
+                            .read(selectedCategoryProvider.notifier)
+                            .state = cat,
                       );
                     },
                   ),
@@ -184,14 +196,15 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                 SliverPadding(
                   padding: const EdgeInsets.all(16),
                   sliver: SliverGrid(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.7,
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
                     ),
                     delegate: SliverChildBuilderDelegate(
-                          (context, index) {
+                      (context, index) {
                         final product = filtered[index];
                         return ProductCard(product: product);
                       },
@@ -231,7 +244,8 @@ class ProductCard extends StatelessWidget {
           children: [
             Expanded(
               child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(16)),
                 child: Image.network(product.thumbnail, fit: BoxFit.cover),
               ),
             ),
@@ -240,7 +254,8 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(product.title, maxLines: 2, overflow: TextOverflow.ellipsis),
+                  Text(product.title,
+                      maxLines: 2, overflow: TextOverflow.ellipsis),
                   const SizedBox(height: 4),
                   Text(
                     '\$${product.price.toStringAsFixed(2)}',
@@ -269,7 +284,8 @@ class ProductListTile extends StatelessWidget {
       onTap: () => context.push('/product/${product.id}'),
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Image.network(product.thumbnail, width: 56, height: 56, fit: BoxFit.cover),
+        child: Image.network(product.thumbnail,
+            width: 56, height: 56, fit: BoxFit.cover),
       ),
       title: Text(product.title, maxLines: 2, overflow: TextOverflow.ellipsis),
       subtitle: Text('\$${product.price.toStringAsFixed(2)}'),

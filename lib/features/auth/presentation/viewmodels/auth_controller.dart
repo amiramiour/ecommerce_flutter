@@ -33,12 +33,14 @@ class AuthController extends AsyncNotifier<AppUser?> {
 
   Future<void> signIn(String email, String password) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async => _repo.signInWithEmail(email, password));
+    state = await AsyncValue.guard(
+        () async => _repo.signInWithEmail(email, password));
   }
 
   Future<void> register(String email, String password) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() async => _repo.registerWithEmail(email, password));
+    state = await AsyncValue.guard(
+        () async => _repo.registerWithEmail(email, password));
   }
 
   Future<void> signOut() async {
@@ -47,7 +49,8 @@ class AuthController extends AsyncNotifier<AppUser?> {
   }
 }
 
-final authControllerProvider = AsyncNotifierProvider<AuthController, AppUser?>(() => AuthController());
+final authControllerProvider =
+    AsyncNotifierProvider<AuthController, AppUser?>(() => AuthController());
 
 /// Mapping lisible des erreurs Firebase
 String mapFirebaseAuthError(Object err) {

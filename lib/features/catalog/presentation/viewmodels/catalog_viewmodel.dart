@@ -7,7 +7,7 @@ import '../../data/repositories/catalog_repository_impl.dart';
 
 /// --- Data layer providers (DI propre) ---
 final catalogRemoteDataSourceProvider =
-Provider<CatalogRemoteDataSource>((ref) => CatalogRemoteDataSource());
+    Provider<CatalogRemoteDataSource>((ref) => CatalogRemoteDataSource());
 
 final catalogRepositoryProvider = Provider<CatalogRepository>((ref) {
   final ds = ref.watch(catalogRemoteDataSourceProvider);
@@ -24,7 +24,8 @@ class CatalogViewModel extends AsyncNotifier<List<Product>> {
 }
 
 final catalogViewModelProvider =
-AsyncNotifierProvider<CatalogViewModel, List<Product>>(CatalogViewModel.new);
+    AsyncNotifierProvider<CatalogViewModel, List<Product>>(
+        CatalogViewModel.new);
 
 /// --- Product by id (pour la page détail) ---
 final productByIdProvider = Provider.family<Product?, int>((ref, id) {
@@ -44,12 +45,14 @@ final selectedCategoryProvider = StateProvider<String?>((ref) => null);
 /// --- Tri & disposition (grille/liste) ---
 enum SortOrder { relevance, priceAsc, priceDesc, titleAsc, titleDesc }
 
-final sortOrderProvider = StateProvider<SortOrder>((ref) => SortOrder.relevance);
+final sortOrderProvider =
+    StateProvider<SortOrder>((ref) => SortOrder.relevance);
 final isGridProvider = StateProvider<bool>((ref) => true);
 
 /// Catégories disponibles (déduites localement)
 final categoriesProvider = Provider<List<String>>((ref) {
-  final list = ref.watch(catalogViewModelProvider).valueOrNull ?? const <Product>[];
+  final list =
+      ref.watch(catalogViewModelProvider).valueOrNull ?? const <Product>[];
   final set = <String>{};
   for (final p in list) {
     final c = p.category.trim();
@@ -61,7 +64,8 @@ final categoriesProvider = Provider<List<String>>((ref) {
 
 /// Produits filtrés (recherche + catégorie) puis triés
 final filteredProductsProvider = Provider<List<Product>>((ref) {
-  final list = ref.watch(catalogViewModelProvider).valueOrNull ?? const <Product>[];
+  final list =
+      ref.watch(catalogViewModelProvider).valueOrNull ?? const <Product>[];
   final q = ref.watch(searchQueryProvider).trim().toLowerCase();
   final cat = ref.watch(selectedCategoryProvider);
   final sort = ref.watch(sortOrderProvider);
@@ -78,7 +82,7 @@ final filteredProductsProvider = Provider<List<Product>>((ref) {
   // tri
   switch (sort) {
     case SortOrder.relevance:
-    // on garde l’ordre naturel (API)
+      // on garde l’ordre naturel (API)
       break;
     case SortOrder.priceAsc:
       filtered.sort((a, b) => a.price.compareTo(b.price));
@@ -87,10 +91,12 @@ final filteredProductsProvider = Provider<List<Product>>((ref) {
       filtered.sort((a, b) => b.price.compareTo(a.price));
       break;
     case SortOrder.titleAsc:
-      filtered.sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+      filtered.sort(
+          (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
       break;
     case SortOrder.titleDesc:
-      filtered.sort((a, b) => b.title.toLowerCase().compareTo(a.title.toLowerCase()));
+      filtered.sort(
+          (a, b) => b.title.toLowerCase().compareTo(a.title.toLowerCase()));
       break;
   }
 

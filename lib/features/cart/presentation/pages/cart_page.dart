@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/cart_item.dart';
 import '../viewmodels/cart_viewmodel.dart';
 import 'package:go_router/go_router.dart';
+
 class CartPage extends ConsumerWidget {
   const CartPage({super.key});
 
@@ -26,11 +27,11 @@ class CartPage extends ConsumerWidget {
       body: items.isEmpty
           ? const _EmptyCart()
           : ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: items.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 12),
-        itemBuilder: (context, i) => _CartLine(item: items[i]),
-      ),
+              padding: const EdgeInsets.all(16),
+              itemCount: items.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (context, i) => _CartLine(item: items[i]),
+            ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
         decoration: BoxDecoration(
@@ -44,13 +45,15 @@ class CartPage extends ConsumerWidget {
               Expanded(
                 child: Text(
                   'Total: \$${total.toStringAsFixed(2)}',
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
               SizedBox(
                 height: 48,
                 child: FilledButton.icon(
-                  onPressed: items.isEmpty ? null : () => context.push('/checkout'),
+                  onPressed:
+                      items.isEmpty ? null : () => context.push('/checkout'),
                   icon: const Icon(Icons.payment),
                   label: const Text('Checkout'),
                 ),
@@ -89,7 +92,8 @@ class _CartLine extends ConsumerWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(item.thumbnail, width: 72, height: 72, fit: BoxFit.cover),
+              child: Image.network(item.thumbnail,
+                  width: 72, height: 72, fit: BoxFit.cover),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -105,12 +109,15 @@ class _CartLine extends ConsumerWidget {
               children: [
                 IconButton(
                   icon: const Icon(Icons.add_circle_outline),
-                  onPressed: () => ref.read(cartProvider.notifier).increment(item.productId),
+                  onPressed: () =>
+                      ref.read(cartProvider.notifier).increment(item.productId),
                 ),
-                Text('${item.quantity}', style: const TextStyle(fontWeight: FontWeight.w600)),
+                Text('${item.quantity}',
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
                 IconButton(
                   icon: const Icon(Icons.remove_circle_outline),
-                  onPressed: () => ref.read(cartProvider.notifier).decrement(item.productId),
+                  onPressed: () =>
+                      ref.read(cartProvider.notifier).decrement(item.productId),
                 ),
               ],
             ),
@@ -123,7 +130,8 @@ class _CartLine extends ConsumerWidget {
                 IconButton(
                   tooltip: 'Supprimer',
                   icon: const Icon(Icons.delete_outline),
-                  onPressed: () => ref.read(cartProvider.notifier).remove(item.productId),
+                  onPressed: () =>
+                      ref.read(cartProvider.notifier).remove(item.productId),
                 ),
               ],
             ),

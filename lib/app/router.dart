@@ -35,10 +35,12 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     initialLocation: '/catalog',
-    refreshListenable: GoRouterRefreshStream(ref.read(authStateProvider.stream)),
+    refreshListenable:
+        GoRouterRefreshStream(ref.read(authStateProvider.stream)),
     redirect: (context, state) {
       final isLoggedIn = authAsync.value != null;
-      final loggingIn = state.matchedLocation == '/login' || state.matchedLocation == '/register';
+      final loggingIn = state.matchedLocation == '/login' ||
+          state.matchedLocation == '/register';
 
       if (!isLoggedIn && !loggingIn) return '/login';
       if (isLoggedIn && loggingIn) return '/catalog';
@@ -53,27 +55,28 @@ final routerProvider = Provider<GoRouter>((ref) {
       // Application routes (placeholder pour test)
       GoRoute(
         path: '/catalog',
-        builder: (_, __) => const CatalogPage(), // ⬅️ au lieu de CatalogPlaceholder
+        builder: (_, __) =>
+            const CatalogPage(), // ⬅️ au lieu de CatalogPlaceholder
       ),
 
       GoRoute(
         path: '/product/:id',
-        builder: (context, state) => ProductPage(productId: state.pathParameters['id']!),
+        builder: (context, state) =>
+            ProductPage(productId: state.pathParameters['id']!),
       ),
 
-      GoRoute(path: '/cart', builder: (_, __) => const CartPage()),            //
-      GoRoute(path: '/checkout', builder: (_, __) => const CheckoutPage()),    //
-      GoRoute(path: '/orders', builder: (_, __) => const OrdersPage()),        //
+      GoRoute(path: '/cart', builder: (_, __) => const CartPage()), //
+      GoRoute(path: '/checkout', builder: (_, __) => const CheckoutPage()), //
+      GoRoute(path: '/orders', builder: (_, __) => const OrdersPage()), //
       GoRoute(
         path: '/orders/:id',
-        builder: (context, state) => OrderDetailPage(orderId: state.pathParameters['id']!),
+        builder: (context, state) =>
+            OrderDetailPage(orderId: state.pathParameters['id']!),
       ),
       GoRoute(
         path: '/profile',
         builder: (_, __) => const ProfilePage(),
       ),
-
-
     ],
   );
 });

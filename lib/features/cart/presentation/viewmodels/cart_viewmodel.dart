@@ -54,8 +54,8 @@ class CartController extends StateNotifier<List<CartItem>> {
   void clear() => state = const [];
 }
 
-final cartProvider =
-StateNotifierProvider<CartController, List<CartItem>>((ref) => CartController());
+final cartProvider = StateNotifierProvider<CartController, List<CartItem>>(
+    (ref) => CartController());
 
 final cartTotalProvider = Provider<double>((ref) {
   final items = ref.watch(cartProvider);

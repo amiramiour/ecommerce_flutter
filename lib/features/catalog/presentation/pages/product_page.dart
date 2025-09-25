@@ -44,14 +44,16 @@ class _ProductPageState extends ConsumerState<ProductPage> {
                       right: 6,
                       top: 6,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
                           '$count',
-                          style: const TextStyle(fontSize: 11, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 11, color: Colors.white),
                         ),
                       ),
                     ),
@@ -65,9 +67,11 @@ class _ProductPageState extends ConsumerState<ProductPage> {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Erreur : $e')),
         data: (_) {
-          if (id == null) return const Center(child: Text('ID produit invalide'));
+          if (id == null)
+            return const Center(child: Text('ID produit invalide'));
           final product = ref.watch(productByIdProvider(id));
-          if (product == null) return const Center(child: Text('Produit introuvable'));
+          if (product == null)
+            return const Center(child: Text('Produit introuvable'));
 
           return _ProductContent(
             product: product,
@@ -128,37 +132,52 @@ class _ProductContent extends StatelessWidget {
           // Titre
           Text(
             product.title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 8),
 
           if (product.category.isNotEmpty)
             Chip(
               label: Text(product.category),
-              backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(.08),
-              labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+              backgroundColor:
+                  Theme.of(context).colorScheme.primary.withOpacity(.08),
+              labelStyle:
+                  TextStyle(color: Theme.of(context).colorScheme.primary),
             ),
           const SizedBox(height: 12),
 
           // Prix
           Text(
             '\$${product.price.toStringAsFixed(2)}',
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.deepPurple),
+            style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepPurple),
           ),
           const SizedBox(height: 16),
 
           // Description
-          Text(product.description, style: Theme.of(context).textTheme.bodyMedium),
+          Text(product.description,
+              style: Theme.of(context).textTheme.bodyMedium),
           const SizedBox(height: 24),
 
           // Quantité
           Row(
             children: [
-              const Text('Quantité', style: TextStyle(fontWeight: FontWeight.w600)),
+              const Text('Quantité',
+                  style: TextStyle(fontWeight: FontWeight.w600)),
               const SizedBox(width: 12),
-              IconButton(icon: const Icon(Icons.remove_circle_outline), onPressed: onDec),
-              Text('$quantity', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-              IconButton(icon: const Icon(Icons.add_circle_outline), onPressed: onInc),
+              IconButton(
+                  icon: const Icon(Icons.remove_circle_outline),
+                  onPressed: onDec),
+              Text('$quantity',
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600)),
+              IconButton(
+                  icon: const Icon(Icons.add_circle_outline), onPressed: onInc),
             ],
           ),
           const SizedBox(height: 16),

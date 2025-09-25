@@ -25,7 +25,7 @@ class Product {
       description: json['description'],
       category: json['category'],
       thumbnail: json['image'], // fakestoreapi utilise "image"
-      images: [json['image']],  // on répète pour matcher la structure
+      images: [json['image']], // on répète pour matcher la structure
     );
   }
 }

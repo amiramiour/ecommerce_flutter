@@ -17,5 +17,5 @@ class OrdersController extends StateNotifier<List<Order>> {
   }
 }
 
-final ordersProvider =
-StateNotifierProvider<OrdersController, List<Order>>((ref) => OrdersController());
+final ordersProvider = StateNotifierProvider<OrdersController, List<Order>>(
+    (ref) => OrdersController());
