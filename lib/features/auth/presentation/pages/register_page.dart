@@ -44,9 +44,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     await ref.read(authControllerProvider.notifier).register(
-      _email.text.trim(),
-      _password.text,
-    );
+          _email.text.trim(),
+          _password.text,
+        );
     final state = ref.read(authControllerProvider);
     if (state.hasError) {
       final msg = mapFirebaseAuthError(state.error!);
@@ -161,10 +161,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                                       borderRadius: BorderRadius.circular(14))),
                               child: auth.isLoading
                                   ? const SizedBox(
-                                  width: 22,
-                                  height: 22,
-                                  child: CircularProgressIndicator(
-                                      strokeWidth: 2))
+                                      width: 22,
+                                      height: 22,
+                                      child: CircularProgressIndicator(
+                                          strokeWidth: 2))
                                   : const Text("Créer le compte"),
                             ),
                           ),

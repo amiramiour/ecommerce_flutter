@@ -144,12 +144,10 @@ class _ProductContent extends StatelessWidget {
           if (product.category.isNotEmpty)
             Chip(
               label: Text(product.category),
-              backgroundColor: Theme.of(context)
-                  .colorScheme
-                  .primary
-                  .withValues(alpha: .08),
+              backgroundColor:
+                  Theme.of(context).colorScheme.primary.withValues(alpha: .08),
               labelStyle:
-              TextStyle(color: Theme.of(context).colorScheme.primary),
+                  TextStyle(color: Theme.of(context).colorScheme.primary),
             ),
           const SizedBox(height: 12),
 

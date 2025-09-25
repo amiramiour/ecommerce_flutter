@@ -30,8 +30,8 @@ final routerProvider = Provider<GoRouter>((ref) {
     refreshListenable: notifier,
     redirect: (context, state) {
       final isLoggedIn = authAsync.value != null;
-      final loggingIn =
-          state.matchedLocation == '/login' || state.matchedLocation == '/register';
+      final loggingIn = state.matchedLocation == '/login' ||
+          state.matchedLocation == '/register';
 
       if (!isLoggedIn && !loggingIn) return '/login';
       if (isLoggedIn && loggingIn) return '/catalog';

@@ -21,34 +21,34 @@ class CheckoutPage extends ConsumerWidget {
               child: items.isEmpty
                   ? const Center(child: Text('Panier vide'))
                   : ListView.separated(
-                itemCount: items.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 8),
-                itemBuilder: (_, i) {
-                  final it = items[i];
-                  return ListTile(
-                    leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        it.thumbnail,
-                        width: 48,
-                        height: 48,
-                        fit: BoxFit.cover,
-                      ),
+                      itemCount: items.length,
+                      separatorBuilder: (_, __) => const SizedBox(height: 8),
+                      itemBuilder: (_, i) {
+                        final it = items[i];
+                        return ListTile(
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              it.thumbnail,
+                              width: 48,
+                              height: 48,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          title: Text(
+                            it.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          subtitle: Text(
+                              '${it.quantity} × \$${it.price.toStringAsFixed(2)}'),
+                          trailing: Text(
+                            '\$${(it.price * it.quantity).toStringAsFixed(2)}',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        );
+                      },
                     ),
-                    title: Text(
-                      it.title,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    subtitle: Text(
-                        '${it.quantity} × \$${it.price.toStringAsFixed(2)}'),
-                    trailing: Text(
-                      '\$${(it.price * it.quantity).toStringAsFixed(2)}',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  );
-                },
-              ),
             ),
             const SizedBox(height: 8),
             Row(
@@ -74,29 +74,29 @@ class CheckoutPage extends ConsumerWidget {
                 onPressed: items.isEmpty
                     ? null
                     : () async {
-                  final success = await showModalBottomSheet<bool>(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (_) => _MockStripeSheet(amount: total),
-                  );
-                  if (success == true) {
-                    // créer commande + vider panier
-                    ref
-                        .read(ordersProvider.notifier)
-                        .addOrder(items, total);
-                    ref.read(cartProvider.notifier).clear();
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                              'Paiement confirmé — commande créée ✅'),
-                        ),
-                      );
-                      Navigator.of(context).pop(); // retour au panier
-                    }
-                  }
-                },
+                        final success = await showModalBottomSheet<bool>(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (_) => _MockStripeSheet(amount: total),
+                        );
+                        if (success == true) {
+                          // créer commande + vider panier
+                          ref
+                              .read(ordersProvider.notifier)
+                              .addOrder(items, total);
+                          ref.read(cartProvider.notifier).clear();
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    'Paiement confirmé — commande créée ✅'),
+                              ),
+                            );
+                            Navigator.of(context).pop(); // retour au panier
+                          }
+                        }
+                      },
                 child: const Text('Payer'),
               ),
             ),
@@ -240,29 +240,29 @@ class _MockStripeSheetState extends State<_MockStripeSheet> {
                     onPressed: _processing
                         ? null
                         : () async {
-                      if (!_formKey.currentState!.validate()) {
-                        return;
-                      }
-                      setState(() => _processing = true);
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            }
+                            setState(() => _processing = true);
 
-                      // ✅ capture du navigator AVANT l’await
-                      final navigator = Navigator.of(context);
+                            // ✅ capture du navigator AVANT l’await
+                            final navigator = Navigator.of(context);
 
-                      await Future.delayed(
-                        const Duration(seconds: 1),
-                      ); // simulate processing
-                      if (!mounted) return;
-                      navigator.pop(true);
-                    },
+                            await Future.delayed(
+                              const Duration(seconds: 1),
+                            ); // simulate processing
+                            if (!mounted) return;
+                            navigator.pop(true);
+                          },
                     child: _processing
                         ? const SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
                         : Text(
-                      'Payer \$${widget.amount.toStringAsFixed(2)}',
-                    ),
+                            'Payer \$${widget.amount.toStringAsFixed(2)}',
+                          ),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -270,10 +270,10 @@ class _MockStripeSheetState extends State<_MockStripeSheet> {
                   onPressed: _processing
                       ? null
                       : () {
-                    if (mounted) {
-                      Navigator.maybePop(context, false);
-                    }
-                  },
+                          if (mounted) {
+                            Navigator.maybePop(context, false);
+                          }
+                        },
                   child: const Text('Annuler'),
                 ),
               ],

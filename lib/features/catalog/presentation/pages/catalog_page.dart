@@ -69,7 +69,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
             tooltip: 'Trier',
             initialValue: sort,
             onSelected: (value) =>
-            ref.read(sortOrderProvider.notifier).state = value,
+                ref.read(sortOrderProvider.notifier).state = value,
             itemBuilder: (context) => const [
               PopupMenuItem(
                   value: SortOrder.relevance, child: Text('Pertinence')),
@@ -137,15 +137,13 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                 isDense: true,
                 filled: true,
                 border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
           ),
         ),
       ),
-
       drawer: const AppDrawer(),
-
       body: productsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, _) => Center(child: Text('Erreur : $err')),
@@ -159,7 +157,7 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                   height: 48,
                   child: ListView.separated(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     scrollDirection: Axis.horizontal,
                     itemCount: categories.length + 1,
                     separatorBuilder: (_, __) => const SizedBox(width: 8),
@@ -194,14 +192,14 @@ class _CatalogPageState extends ConsumerState<CatalogPage> {
                   padding: const EdgeInsets.all(16),
                   sliver: SliverGrid(
                     gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.7,
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 16,
                     ),
                     delegate: SliverChildBuilderDelegate(
-                          (context, index) {
+                      (context, index) {
                         final product = filtered[index];
                         return ProductCard(product: product);
                       },
@@ -242,7 +240,7 @@ class ProductCard extends StatelessWidget {
             Expanded(
               child: ClipRRect(
                 borderRadius:
-                const BorderRadius.vertical(top: Radius.circular(16)),
+                    const BorderRadius.vertical(top: Radius.circular(16)),
                 child: Image.network(product.thumbnail, fit: BoxFit.cover),
               ),
             ),
