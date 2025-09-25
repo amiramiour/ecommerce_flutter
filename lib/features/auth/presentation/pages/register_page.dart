@@ -169,6 +169,49 @@ class _RegisterPageState extends ConsumerState<RegisterPage>
                             ),
                           ),
                           const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              const Expanded(child: Divider()),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                child: Text("ou",
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall),
+                              ),
+                              const Expanded(child: Divider()),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 48,
+                            child: OutlinedButton.icon(
+                              icon: const Icon(Icons.login),
+                              label: const Text("Continuer avec Google"),
+                              onPressed: auth.isLoading
+                                  ? null
+                                  : () async {
+                                      await ref
+                                          .read(authControllerProvider.notifier)
+                                          .signInWithGoogle();
+                                      if (!context.mounted) return;
+                                      final state =
+                                          ref.read(authControllerProvider);
+                                      if (state.hasError) {
+                                        final msg =
+                                            mapFirebaseAuthError(state.error!);
+                                        if (!mounted) return;
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                                SnackBar(content: Text(msg)));
+                                      } else {
+                                        if (!mounted) return;
+                                        context.go('/catalog');
+                                      }
+                                    },
+                            ),
+                          ),
                           TextButton(
                             onPressed: () => context.go('/login'),
                             child: const Text("J'ai déjà un compte"),

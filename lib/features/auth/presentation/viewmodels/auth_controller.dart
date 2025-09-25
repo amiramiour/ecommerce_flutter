@@ -47,6 +47,11 @@ class AuthController extends AsyncNotifier<AppUser?> {
     await _repo.signOut();
     state = const AsyncData(null);
   }
+
+  Future<void> signInWithGoogle() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() async => _repo.signInWithGoogle());
+  }
 }
 
 final authControllerProvider =
@@ -56,20 +61,12 @@ final authControllerProvider =
 String mapFirebaseAuthError(Object err) {
   if (err is fb.FirebaseAuthException) {
     switch (err.code) {
-      case 'invalid-email':
-        return "Email invalide.";
-      case 'user-not-found':
-      case 'wrong-password':
-      case 'invalid-credential':
-        return "Identifiants incorrects.";
-      case 'email-already-in-use':
-        return "Cet email est déjà utilisé.";
-      case 'weak-password':
-        return "Mot de passe trop faible (≥ 6 caractères).";
-      case 'too-many-requests':
-        return "Trop de tentatives. Réessaie plus tard.";
-      case 'network-request-failed':
-        return "Problème réseau. Vérifie ta connexion.";
+      // ... tes cases existantes
+      case 'account-exists-with-different-credential':
+        return "Un compte existe déjà avec une autre méthode (ex: email).";
+      case 'popup-closed-by-user': // web
+      case 'sign-in-cancelled': // mobile (custom ci-dessus)
+        return "Connexion annulée.";
       default:
         return "Erreur: ${err.code}";
     }

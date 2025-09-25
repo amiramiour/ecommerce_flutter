@@ -25,5 +25,17 @@ class AuthRepositoryImpl implements AuthRepository {
       _map(await _ds.signIn(email, password))!;
 
   @override
-  Future<void> signOut() => _ds.signOut();
+  Future<void> signOut() => _ds.signOutAll();
+
+  @override
+  Future<AppUser?> signInWithGoogle() async {
+    final user = await _ds.signInWithGoogle();
+    if (user == null) return null;
+    return AppUser(
+      uid: user.uid,
+      email: user.email ?? '',
+      displayName: user.displayName,
+      photoUrl: user.photoURL,
+    );
+  }
 }
