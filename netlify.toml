@@ -4,4 +4,4 @@
 
 [build.environment]
   FLUTTER_CHANNEL = "stable"
-  FLUTTER_VERSION = "3.24.0" # ajuste si besoin
+  FLUTTER_VERSION = "3.35.4"
