@@ -93,7 +93,8 @@ void main() {
     });
 
     test('signOut vide le currentUser', () async {
-      final auth = FakeFirebaseAuth(FakeUser(uid: '999', email: 'old@test.com'));
+      final auth =
+          FakeFirebaseAuth(FakeUser(uid: '999', email: 'old@test.com'));
       final ds = FirebaseAuthDataSource(auth);
 
       await ds.signOut();

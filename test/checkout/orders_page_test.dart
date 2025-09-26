@@ -23,18 +23,18 @@ class TestOrdersController extends OrdersController {
 
 void main() {
   testWidgets('affiche message vide si aucune commande',
-          (WidgetTester tester) async {
-        final container = ProviderContainer(
-          overrides: [
-            ordersProvider.overrideWith((ref) => TestOrdersController([])),
-          ],
-        );
-        addTearDown(container.dispose);
+      (WidgetTester tester) async {
+    final container = ProviderContainer(
+      overrides: [
+        ordersProvider.overrideWith((ref) => TestOrdersController([])),
+      ],
+    );
+    addTearDown(container.dispose);
 
-        await tester.pumpWidget(_wrapWithMaterial(const OrdersPage(), container));
+    await tester.pumpWidget(_wrapWithMaterial(const OrdersPage(), container));
 
-        expect(find.textContaining('Aucune commande'), findsOneWidget);
-      });
+    expect(find.textContaining('Aucune commande'), findsOneWidget);
+  });
 
   testWidgets('affiche une liste de commandes', (WidgetTester tester) async {
     final fakeOrders = [
