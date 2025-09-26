@@ -9,4 +9,4 @@ flutter --version
 flutter pub get
 
 # Build Flutter Web
-flutter build web --release --pwa-strategy=none --web-renderer canvaskit
+flutter build web --release --pwa-strategy=none canvaskit
